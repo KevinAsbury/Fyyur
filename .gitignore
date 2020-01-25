@@ -53,6 +53,7 @@ pip-log.txt
 # Flask stuff:
 instance/
 .webassets-cache
+[Mm]igrations/
 
 # Environments
 .env
