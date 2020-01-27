@@ -48,6 +48,24 @@ class Venue(db.Model):
     seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(500))
 
+    __init__(self, name, city, state, address='', phone='', image_link='', facebook_link='', 
+    website='', seeking_talent=True, seeking_description=''):
+      self.name = name
+      self.city = city
+      self.state = state
+      self.address = address
+      self.phone = phone
+      self.image_link = image_link
+      self.facebook_link = facebook_link
+      self.website = website
+      self.seeking_talent = seeking_talent
+      self.seeking_description = seeking_description
+
+    __repr__(self):
+      return f'<{self.name} {self.city} {self.state} {self.address} {self.phone} ' + \
+      f'{self.image_link} {self.facebook_link} {self.website} {self.seeking_talent} ' + \ 
+      f'{self.seeking_description}>'
+
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
@@ -64,6 +82,24 @@ class Artist(db.Model):
     website = db.Column(db.String(500))
     seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(500))
+
+    __init__(self, name, city, state, phone='', genres='', image_link='', facebook_link='', 
+    website='', seeking_venue=True, seeking_description=''):
+      self.name = name
+      self.city = city
+      self.state = state
+      self.phone = phone
+      self.genres = genres
+      self.image_link = image_link
+      self.facebook_link = facebook_link
+      self.website = website
+      self.seeking_venue = seeking_venue
+      self.seeking_description = seeking_description
+
+    __repr__(self):
+      return f'<{self.name} {self.city} {self.state} {self.phone} {self.genres} ' + \
+      f'{self.image_link} {self.facebook_link} {self.website} {self.seeking_venue} ' + \ 
+      f'{self.seeking_description}>'
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
