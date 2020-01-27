@@ -23,6 +23,10 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'Venue': Venue, 'Artist': Artist}
+
 # TODO: connect to a local postgresql database
 
 #----------------------------------------------------------------------------#
