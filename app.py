@@ -49,7 +49,7 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(500))
 
     __init__(self, name, city, state, address='', phone='', image_link='', facebook_link='', 
-    website='', seeking_talent=True, seeking_description=''):
+    website='', seeking_talent=False, seeking_description=''):
       self.name = name
       self.city = city
       self.state = state
@@ -84,7 +84,7 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(500))
 
     __init__(self, name, city, state, phone='', genres='', image_link='', facebook_link='', 
-    website='', seeking_venue=True, seeking_description=''):
+    website='', seeking_venue=False, seeking_description=''):
       self.name = name
       self.city = city
       self.state = state
