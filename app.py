@@ -25,7 +25,7 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'Venue': Venue, 'Artist': Artist}
+    return {'db': db, 'Venue': Venue, 'Artist': Artist, 'Show': Show}
 
 # TODO: connect to a local postgresql database
 
@@ -38,78 +38,78 @@ class Venue(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
+    city = db.Column(db.String(150))
+    state = db.Column(db.String(150))
+    address = db.Column(db.String(150))
+    phone = db.Column(db.String(150))
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(150))
     website = db.Column(db.String(500))
     seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(500))
+    shows = db.relationship("Show")
 
-    __init__(self, name, city, state, address='', phone='', image_link='', facebook_link='', 
-    website='', seeking_talent=False, seeking_description=''):
-      self.name = name
-      self.city = city
-      self.state = state
-      self.address = address
-      self.phone = phone
-      self.image_link = image_link
-      self.facebook_link = facebook_link
-      self.website = website
-      self.seeking_talent = seeking_talent
-      self.seeking_description = seeking_description
+    def __init__(self, name, city, state, address, phone='', image_link='', 
+    facebook_link='', website='', seeking_talent=False, seeking_description=''):
+        self.name = name
+        self.city = city
+        self.state = state
+        self.address = address
+        self.phone = phone
+        self.image_link = image_link
+        self.facebook_link = facebook_link
+        self.website = website
+        self.seeking_talent = seeking_talent
+        self.seeking_description = seeking_description
 
-    __repr__(self):
-      return f'<{self.name} {self.city} {self.state} {self.address} {self.phone} ' + \
-      f'{self.image_link} {self.facebook_link} {self.website} {self.seeking_talent} ' + \ 
-      f'{self.seeking_description}>'
+    def __repr__(self):
+        return f'<{self.name} {self.city} {self.state} {self.address} {self.phone} '\
+          f'{self.image_link} {self.facebook_link} {self.website} '\
+            f'{self.seeking_talent} {self.seeking_description}>'
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(150))
     website = db.Column(db.String(500))
     seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(500))
+    venues = db.relationship("Show")
 
-    __init__(self, name, city, state, phone='', genres='', image_link='', facebook_link='', 
+    def __init__(self, name, city, state, phone='', image_link='', facebook_link='', 
     website='', seeking_venue=False, seeking_description=''):
-      self.name = name
-      self.city = city
-      self.state = state
-      self.phone = phone
-      self.genres = genres
-      self.image_link = image_link
-      self.facebook_link = facebook_link
-      self.website = website
-      self.seeking_venue = seeking_venue
-      self.seeking_description = seeking_description
+        self.name = name
+        self.city = city
+        self.state = state
+        self.phone = phone
+        self.image_link = image_link
+        self.facebook_link = facebook_link
+        self.website = website
+        self.seeking_venue = seeking_venue
+        self.seeking_description = seeking_description
 
-    __repr__(self):
-      return f'<{self.name} {self.city} {self.state} {self.phone} {self.genres} ' + \
-      f'{self.image_link} {self.facebook_link} {self.website} {self.seeking_venue} ' + \ 
-      f'{self.seeking_description}>'
+    def __repr__(self):
+        return f'<{self.name} {self.city} {self.state} {self.phone} {self.genres} '\
+          f'{self.image_link} {self.facebook_link} {self.website} '\
+            f'{self.seeking_venue} {self.seeking_description}>'
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
-Show = db.Table('Show', 
-    db.Column('venue_id', db.Integer, db.ForeignKey('Venue.id'), primary_key=True),
-    db.Column('artist_id', db.Integer, db.ForeignKey('Artist.id'), primary_key=True),
-    db.Column('start_time', db.DateTime)
-)
+class Show(db.Model):
+    __tablename__ = 'Show'
+    venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), primary_key=True)
+    artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), primary_key=True)
+    start_time = db.Column(db.DateTime, primary_key=True)
+    artist = db.relationship("Artist")
 
 #----------------------------------------------------------------------------#
 # Filters.
