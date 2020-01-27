@@ -24,7 +24,7 @@ venue2 = Venue('The Dueling Pianos Bar', 'New York', 'NY', '335 Delancey St', '9
         'https://images.unsplash.com/photo-1497032205916-ac775f0649ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80', 
         'https://www.facebook.com/theduelingpianos', 'https://www.theduelingpianos.com', False)
 
-venue3 = Venue('Park Square Live Music & Coffee', 'San Francisco', 'CA', '415-000-1234', 
+venue3 = Venue('Park Square Live Music & Coffee', 'San Francisco', 'CA', '1017 Folsom Street', '415-000-1234', 
         'https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80', 
         'https://www.facebook.com/ParkSquareLiveMusicAndCoffee', 'https://www.parksquarelivemusicandcoffee.com', False)
 
@@ -50,8 +50,6 @@ venue3.shows.append(show5)
 
 db.session.add_all([venue1, venue2, venue3])
 db.session.commit()
-
-
 
 # # create parent, append a child via association
 # p = Parent()
