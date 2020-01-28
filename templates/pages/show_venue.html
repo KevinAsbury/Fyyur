@@ -74,6 +74,14 @@
 		{% endfor %}
 	</div>
 </section>
+<section>
+	<div>
+		<form action="/venues/{{ venue.id }}" method=POST class=delete-venue>
+			<input type=hidden value="{{ venue.name }}" name="delete" />
+			<input type=submit value="Delete Venue" />
+		</form>
+	</div>
+</section>
 
 {% endblock %}
 
