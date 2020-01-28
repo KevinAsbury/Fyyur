@@ -41,6 +41,7 @@ class Venue(db.Model):
     state = db.Column(db.String(150))
     address = db.Column(db.String(150))
     phone = db.Column(db.String(150))
+    genres = db.Column(db.ARRAY(db.String), nullable=False) # This only works with Postgres!!!
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(150))
     website = db.Column(db.String(500))
@@ -48,13 +49,14 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(500))
     shows = db.relationship("Show")
 
-    def __init__(self, name, city, state, address, phone='', image_link='', 
+    def __init__(self, name, city, state, address, phone='', genres=[], image_link='', 
     facebook_link='', website='', seeking_talent=False, seeking_description=''):
         self.name = name
         self.city = city
         self.state = state
         self.address = address
         self.phone = phone
+        self.genres = genres
         self.image_link = image_link
         self.facebook_link = facebook_link
         self.website = website
@@ -73,6 +75,7 @@ class Artist(db.Model):
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     phone = db.Column(db.String(120))
+    genres = db.Column(db.ARRAY(db.String), nullable=False) # This only works with Postgres!!!
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(150))
     website = db.Column(db.String(500))
@@ -80,12 +83,13 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(500))
     shows = db.relationship("Show")
 
-    def __init__(self, name, city, state, phone='', image_link='', facebook_link='', 
+    def __init__(self, name, city, state, phone='', genres=[], image_link='', facebook_link='', 
     website='', seeking_venue=False, seeking_description=''):
         self.name = name
         self.city = city
         self.state = state
         self.phone = phone
+        self.genres = genres
         self.image_link = image_link
         self.facebook_link = facebook_link
         self.website = website
@@ -187,7 +191,7 @@ def show_venue(venue_id):
     information.append({
         "id": venue.id,
         "name": venue.name,
-        "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"], #TODO: implement genres
+        "genres": venue.genres,
         "address": venue.address,
         "city": venue.city,
         "state": venue.state,
@@ -218,13 +222,13 @@ def create_venue_submission():
     error = False
     try:
         form = VenueForm()
-        # TODO: implement genres
         venue = Venue(
             name=form.name.data,
             city=form.city.data,
             state=form.state.data,
             address=form.address.data,
             phone=form.phone.data,
+            genres=form.genres.data,
             facebook_link=form.facebook_link.data,
             website=form.website.data,
             image_link=form.image_link.data,
@@ -318,7 +322,7 @@ def show_artist(artist_id):
     information.append({
         "id": artist.id,
         "name": artist.name,
-        "genres": ["Rock n Roll"], # TODO: implement genres
+        "genres": artist.genres,
         "city": artist.city,
         "state": artist.state,
         "phone": artist.phone,
@@ -428,6 +432,7 @@ def create_artist_submission():
             city=form.city.data,
             state=form.state.data,
             phone=form.phone.data,
+            genres=form.genres.data,
             image_link=form.image_link.data,
             facebook_link=form.facebook_link.data,
             website=form.website.data,
