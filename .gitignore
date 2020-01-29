@@ -65,3 +65,4 @@ env.bak/
 venv.bak/
 
 /data.py
+.vscode/
