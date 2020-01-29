@@ -252,7 +252,7 @@ def create_venue_submission():
             flash('Venue ' + request.form['name'] + ' was successfully listed!')
             return redirect(url_for('index'))
 
-@app.route('/venues/<venue_id>', methods=['POST'])
+@app.route('/venues/<venue_id>', methods=['POST', 'GET'])
 def delete_venue(venue_id):
     if request.form.get('delete'):
         error = False
